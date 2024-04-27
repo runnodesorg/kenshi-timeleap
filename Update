@@ -1,0 +1,66 @@
+************BEGIN UPDATE KENSHI v.0.12.0 Date: 25/4/2024******************
+1. Vào file secrets.worker.yaml
++ Thay đổi nội dung theo đúng cấu trúc sau, có thể copy mẫu này xuống phía dưới file xong lần lượt copy các thông tin cũ phía trên của Node vào;
++ Riêng dòng cuối evmPrivateKey trong file cũ chưa có, tiến hành lấy Private key từ ví Metamask của ví evmAddress (dòng thứ 2).
+----------------------------------
+
+address: ...................
+evmAddress: ...................
+secretKey: ...................
+publicKey: ...................
+evmPrivateKey: ...................
+
+------------------------------------
+
+***********************************
+2. Vào file conf.worker.yaml
++ Thêm system: vào đầu file conf.worker.yaml như dưới:
+-------
+
+system:
+  log: info
+  name: <ten node>
+
+-------------------------------------------
+
++ Thay đoạn RPC như bên dưới:
+-----------
+
+rpc:
+  - name: ethereum
+    nodes:
+      - https://ethereum.publicnode.com
+      - https://eth.llamarpc.com
+      - wss://ethereum.publicnode.com
+      - https://eth.rpc.blxrbdn.com
+
+  - name: arbitrum
+    nodes:
+      - https://arbitrum-one.publicnode.com
+      - https://arbitrum.llamarpc.com
+      - wss://arbitrum-one.publicnode.com
+      - https://arbitrum-one.public.blastapi.io
+
+  - name: arbitrumSepolia
+    nodes:
+      - https://sepolia-rollup.arbitrum.io/rpc
+
+-------------
+***********************************
+3. Chạy lệnh để pull được:
+
+sudo sed -i.bak 's/kenshitech/timeleaplabs/g' compose.yaml
+***********************************
+4. Chạy lệnh pull:
+
+sudo ./unchained.sh worker pull
+***********************************
+5. Chạy lệnh up (Node sẽ không tạo lại thông tin trong file secrets.worker.yaml nữa do file này đã điền chính xác ở bước 1)
+
+sudo ./unchained.sh worker up -d
+***********************************
+6. Logs
+
+sudo ./unchained.sh worker logs -f
+
+************END UPDATE KENSHI v.0.12.0 ******************
